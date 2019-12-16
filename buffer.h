@@ -1,41 +1,4 @@
-/*------------------------------------------------------------------------------
-                                "buffer.h"
-                                ----------
-			- Introdução.:
-         --------------
-           No arquivo "buffer.h" contem os  procedimentos de controle
-	      e  armazenamento, tambem as  variaveis que serão utilizadas.
-         Para que o Analizador Léxico possa varrer todo o  arquivo  e
-         retornar os tokens encontrados...
-
-         - void arquivo.:
-         ----------------
-           Tem  a   finalidade  de  abrir  um  arquivo  para  leitura
-         e  armazenar  todo  o  conteúdo  do  arquivo  em  um vetor e
-         finalizando com '\0'.
-
-         - char ProximoCaracter.:
-         ------------------------
-           Tem  a  finalidade  de fazer a leitura do vetor e retornar o
-         próximo caracter armazenado no vetor.
-
-         - typedef struct token.:
-         ------------------------
-           É criado um registro do tipo token, no qual irá armazenar as
-         informasões dos tokens encontrados no arquivo como:
-           	- Classe  .: Para que classe o token pertence.
-            - Valor   .: Lexema encontrado.
-            - PosicaoL.: Em que linha foi encontrado.
-
-
-         - Obs.:  O  vetor  está  sendo  alocado  dinamicamente com o
-         			tamanho do arquivo, para que não haja desperdiço de
-              		espaço na memória.
-------------------------------------------------------------------------------*/
-
-
-
-/*---------------------Declaração de bibliotecas------------------------------*/
+/*---------------------Declara��o de bibliotecas------------------------------*/
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -75,12 +38,12 @@ char arquivo(char* nome_arquivo)
       FILE *arquivo;//Ponteiro do arquivo
       char letra;//Recebe caracteres lido do arquivo
       int bloco = 0;//Contador de coluna
-      int aux=0;//Auxilia na inserção de dados no vetor
+      int aux=0;//Auxilia na inser��o de dados no vetor
 
 
       //Abre o arquivo somente para leitura
       /*-------------------------------------------
-      Se o arquivo não for encontrado ou não puder
+      Se o arquivo n�o for encontrado ou n�o puder
       se aberto retornara um mensagem de erro
       --------------------------------------------*/
       if((arquivo = fopen(nome_arquivo,"r")) == NULL){
@@ -89,7 +52,7 @@ char arquivo(char* nome_arquivo)
       }
 
       
-      //L� caracter por caracter do arquivo
+      //L� caracter por caracter do arquivo
       while((letra = getc(arquivo)) != EOF)
       {
          bloco++;//Conta quantos caracter contem no arquivo...
@@ -115,7 +78,7 @@ char arquivo(char* nome_arquivo)
       {
       	//Insere caracter por caracter no vetor
          vetor[aux] = letra;
-         aux++;//Próxima posição do vetor
+         aux++;//Proxima posição do vetor
       }
 
       //Insere '\0' no final do vetor para
@@ -132,7 +95,7 @@ char arquivo(char* nome_arquivo)
 /*---------------------Inicio void ProximoCaracter----------------------------*/
 char ProximoCaracter ( )
 {
-     c = vetor[ApontadorAdiante++];//Incremento da posição do vetor
+     c = vetor[ApontadorAdiante++];//Incremento da posi��o do vetor
 
      if (c == '\n')
     	linha++;
