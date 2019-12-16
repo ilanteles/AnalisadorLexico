@@ -1,4 +1,3 @@
-/*---------------------Declaração de bibliotecas------------------------------*/
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -6,14 +5,9 @@
 #include <ctype.h>
 
 using namespace std;
-/*----------------------------------------------------------------------------*/
 
-
-
-/*------------------------------Token Retornado-------------------------------*/
 void RetornaToken ()
 {
-	
    token t;
 		do
      	{
@@ -29,7 +23,7 @@ void RetornaToken ()
          	case  5:  cout << "Classe = " << "return" << endl;     			break;
          	case  6:  cout << "Classe = " << "print" << endl;      			break;
          	case  7:  cout << "Classe = " << "read" << endl;       			break;
-         	case  8:  cout << "Classe = " << "write" << endl;               break;
+         	case  8:  cout << "Classe = " << "sqrt" << endl;               break;
          	case  9:  cout << "Classe = " << "+" << endl;                   break;
          	case 10:  cout << "Classe = " << "-" << endl;                   break;
          	case 11:  cout << "Classe = " << "*" << endl;                   break;
@@ -39,25 +33,28 @@ void RetornaToken ()
          	case 15:  cout << "Classe = " << "(" << endl;                   break;
          	case 16:  cout << "Classe = " << ")" << endl;                   break;
          	case 17:  cout << "Classe = " << ";" << endl;                   break;
-         	case 18:  cout << "Classe = " << ":=" << endl;                  break;
+         	case 18:  cout << "Classe = " << ":" << endl;                  break;
          	case 19:  cout << "Classe = " << "numero" << endl;              break;
          	case 20:  cout << "Classe = " << "identificador" << endl;       break;
          	case 21:  cout << "Classe = " << "final de sentenca" << endl;   break;
-        	case 22:  cout << "Classe = " << "erro" << endl;                break;
-            case 23:  cout << "Classe = " << "sqrt" << endl;               	break;
-            case 24:  cout << "Classe = " << "to" << endl;               	break;
-            case 25:  cout << "Classe = " << "string" << endl;              break;
-            case 26:  cout << "Classe = " << "num" << endl;              	break;
-            case 27:  cout << "Classe = " << "{" << endl;              		break;
-            case 28:  cout << "Classe = " << "}" << endl;              		break;
-            case 29:  cout << "Classe = " << "%" << endl;              		break;
+            case 22:  cout << "Classe = " << "erro" << endl;                break;
+            case 23:  cout << "Classe = " << "num" << endl;                break;
+            case 24:  cout << "Classe = " << "string" << endl;                break;
+            case 25:  cout << "Classe = " << "\""<< endl;                break;
+            case 26:  cout << "Classe = " << ">" << endl;                break;
+            case 27:  cout << "Classe = " << ":=" << endl;                break;
+            case 28:  cout << "Classe = " << "{" << endl;                break;
+            case 29:  cout << "Classe = " << "}" << endl;                break;
+            case 30:  cout << "Classe = " << "," << endl;                break;
+            
+            
    		}
           cout << "Lexema = " << t.valor << endl;
           cout << "Linha  = " << t.posicaoL << endl;
           cout << endl;
 
 
-      }while(t.classe != 21);//Encerra quando for final de sentença
+      }while(t.classe != 21);
 
       //Liberando memoria
       delete[] vetor;

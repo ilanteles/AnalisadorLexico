@@ -1,4 +1,4 @@
-/*---------------------Declara��o de bibliotecas------------------------------*/
+
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,13 +18,13 @@ int FalhouAutomatos (int &partida)
    {
    		 case  0: return  3; //comentario
    		 case  3: return  6; //if
-         case  6: return 11; //step
+         case  6: return 11; //then
          case 11: return 16; //else
-         case 16: return 20; //for
-         case 20: return 27; //return
-         case 27: return 33; //print
+         case 16: return 20; //end
+         case 20: return 27; //repeat
+         case 27: return 33; //until
          case 33: return 38; //read
-         case 38: return 44; //
+         case 38: return 44; //write
          case 44: return 46; // +
          case 46: return 48; // -
          case 48: return 50; // *
@@ -34,17 +34,11 @@ int FalhouAutomatos (int &partida)
          case 56: return 58; // (
          case 58: return 60; // )
          case 60: return 62; // ;
-         case 62: return 65; // :=
-         case 65: return 71; // sqrt
-         case 71: return 74; // to
-         case 74: return 81; // string
-         case 81: return 85; // num
-         case 85: return 87; // {
-		 case 87: return 89; // }
-		 case 89: return 91; // %
-         case 91: return 94; // numero
-         case 94: return 99; //Identificador ou Final de senten�a
-         default: return 101;//Retorna Erro...
+         case 62: return 65; // :
+         case 65: return 68; // número
+         case 68: return 70; // ,
+         case 70: return 74; //Identificador ou Final de sentença
+         default: return 76;//Retorna Erro...
    }
 }
 /*-----------------------Fim int FalhouAutomatos------------------------------*/
@@ -57,26 +51,26 @@ token ProximoToken ()
   	//Declarando Variaveis
   	token t;//Declarando token de retorno
   	int p;//Contador auxiliar
-   int estado = 0;//Auxilia Posiciona as compara��es
-  	int partida = 0;//Posiciona as compara��es
+   int estado = 0;//Auxilia Posiciona as comparações
+  	int partida = 0;//Posiciona as comparações
   	int pos = 0;//Variavel contadora aux for
 
   //Limpando o vetor que recebo o Lexema
-  for(p = 0; p < 200; p++)
+  for(p = 0; p < 100; p++)
   {
   		t.valor[p] = NULL;
   }
                 
 
-   	while(1)//La�o Infinito
+   	while(1)//Laço Infinito
   		{
         switch (estado)
         {
-           /*---------------Inicio "Comentario"--------------------*/
+           /*---------------Início "Comentário"--------------------*/
           case 0: c = ProximoCaracter ( );
-                  if(isspace(c))//Verifica se existe espa�o em branco ,tabula��o ou final de linha
-                    	InicioDeLexema++;//Aponta para o inicio do Lexema
-                  else if(c == '/*') estado = 1;
+                  if(isspace(c))//Verifica se espa�o em branco ,tabula��o ou final de linha
+                    	InicioDeLexema++;//Aponta para o início do Lexema
+                  else if(c == '{') estado = 1;
                   else
                   {   //Iguala o inicio do apontador com o proximo Lexema
                       ApontadorAdiante = InicioDeLexema;
@@ -87,15 +81,15 @@ token ProximoToken ()
 
 
           case 1: c = ProximoCaracter ( );
-          			if (c == '*/' && vetor[InicioDeLexema] == '/*')
+          			if (c == '}' && vetor[InicioDeLexema] == '{')
                   	estado = 2;
-                  if (c == '/*' && vetor[InicioDeLexema] == '/*')
+                  if (c == '{' && vetor[InicioDeLexema] == '{')
                   {
                   	estado = 74;
                      if (vetor[ApontadorAdiante] == '\n')
                      	ApontadorAdiante--;
                   }      
-                  if (c != '/*' && vetor[InicioDeLexema] != '/*')
+                  if (c != '{' && vetor[InicioDeLexema] != '{')
                   {
                   	estado = 1;
                   }
@@ -106,7 +100,7 @@ token ProximoToken ()
           case 2: estado = 0;
                   InicioDeLexema = ApontadorAdiante;
 			 break;
-          /*------------------Fim "Comentario"---------------------*/
+          /*------------------Fim "Comentário"---------------------*/
 
 
           /*-------------------Inicio "if"-----------------------*/
@@ -139,7 +133,7 @@ token ProximoToken ()
 
 
 
-          /*-----------------Início "step"---------------------*/
+          /*-----------------Início "then"---------------------*/
           case 6: c = ProximoCaracter ();
           			if (c == 's')
                   	estado = 7;
@@ -367,7 +361,7 @@ token ProximoToken ()
 
           /*----------------Início "print"----------------------*/
           case 27: c = ProximoCaracter ( );
-          			if (c == 'p')
+          			if (c == 'u')
                   	estado = 28;
                   else
                   {
@@ -378,7 +372,7 @@ token ProximoToken ()
 
 
           case 28: c = ProximoCaracter ( );
-          			if (c == 'r')
+          			if (c == 'n')
                   	estado = 29;
                   else
                   {
@@ -389,7 +383,7 @@ token ProximoToken ()
 
 
           case 29: c = ProximoCaracter ( );
-          			if (c == 'i')
+          			if (c == 't')
                   	estado = 30;
                   else
                   {
@@ -400,7 +394,7 @@ token ProximoToken ()
 
 
           case 30: c = ProximoCaracter ( );
-          			if (c == 'n')
+          			if (c == 'i')
                   	estado = 31;
                   else
                   {
@@ -411,7 +405,7 @@ token ProximoToken ()
 
 
           case 31: c = ProximoCaracter ( );
-          			if ((c == 't')&&(!islower(vetor[ApontadorAdiante]))&&(!isupper(vetor[ApontadorAdiante])))
+          			if ((c == 'l')&&(!islower(vetor[ApontadorAdiante]))&&(!isupper(vetor[ApontadorAdiante])))
                   	estado = 32;
                   else
                   {
@@ -482,9 +476,9 @@ token ProximoToken ()
 
 
 
-          /*-----------------Início "write"---------------------*/
+          /*-----------------Início "sqrt"---------------------*/
           case 38: c = ProximoCaracter ( );
-          			if (c == 'w')
+          			if (c == 's')
                   	estado = 39;
                   else
                   {
@@ -495,7 +489,7 @@ token ProximoToken ()
 
 
           case 39: c = ProximoCaracter ( );
-          			if (c == 'r')
+          			if (c == 'q')
                   	estado = 40;
                   else
                   {
@@ -506,7 +500,7 @@ token ProximoToken ()
 
 
           case 40: c = ProximoCaracter ( );
-          			if (c == 'i')
+          			if (c == 'r')
                   	estado = 41;
                   else
                   {
@@ -527,24 +521,16 @@ token ProximoToken ()
           break;
 
 
-          case 42: c = ProximoCaracter ( );
-          			if ((c == 'e')&&(!islower(vetor[ApontadorAdiante]))&&(!isupper(vetor[ApontadorAdiante])))
-                  	estado = 43;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
+        
 
 
           case 43:
           			t.classe = 8;
-                  strcpy(t.valor,"write");//Retorna o Lexema
+                  strcpy(t.valor,"sqrt");//Retorna o Lexema
                   t.posicaoL = linha; //Linha do Lexema
                   		InicioDeLexema = ApontadorAdiante;
 			 return t;
-          /*-----------------Fim "write"-----------------------*/
+          /*-----------------Fim "sqrt"-----------------------*/
 
 
 
@@ -714,7 +700,7 @@ token ProximoToken ()
           break;
 
 
-          case 59:
+           case 59:
           			t.classe = 16;
                   strcpy(t.valor,")");//Retorna o Lexema
                   t.posicaoL = linha; //Linha do Lexema
@@ -746,7 +732,7 @@ token ProximoToken ()
 
 
 
-          /*-----------------Início ":="------------------------*/
+          /*-----------------Início ":"------------------------*/
           case 62: c = ProximoCaracter ( );
           			if (c == ':')
                   	estado = 63;
@@ -758,28 +744,20 @@ token ProximoToken ()
           break;
 
 
-          case 63: c = ProximoCaracter ( );
-          			if (c == '=')
-                  	estado = 64;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
 
-
-          case 64:
+          case 63:
           			t.classe = 18;
-                  strcpy(t.valor,":=");//Retorna o Lexema
+                  strcpy(t.valor,":");//Retorna o Lexema
                   t.posicaoL = linha; //Linha do Lexema
                   		InicioDeLexema = ApontadorAdiante;
 			 return t;
-          /*------------------Fim ":="--------------------------*/
+          /*------------------Fim ":"--------------------------*/
 
-		/*-----------------Início "sqrt"---------------------*/
+
+
+          /*-----------------Início "número"--------------------*/
           case 65: c = ProximoCaracter ( );
-          			if (c == 's')
+          			if (isdigit(c))
                   	estado = 66;
                   else
                   {
@@ -788,268 +766,22 @@ token ProximoToken ()
                   }
           break;
 
+
+
           case 66: c = ProximoCaracter ( );
-          			if (c == 'q')
-                  	estado = 67;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 67: c = ProximoCaracter ( );
-          			if (c == 'r')
-                  	estado = 68;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 69: c = ProximoCaracter ( );
-          			if ((c == 't')&&(!islower(vetor[ApontadorAdiante]))&&(!isupper(vetor[ApontadorAdiante])))
-                  	estado = 70;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 70:
-						t.classe = 23;
-                  strcpy(t.valor,"sqrt");//Retorna Lexema
-                  t.posicaoL = linha; //Linha do Lexema
-                  		InicioDeLexema = ApontadorAdiante;
-			  return t;
-          /*-------------------Fim "sqrt"-----------------------*/
-          
-          /*-----------------Início "to"---------------------*/
-          case 71: c = ProximoCaracter ( );
-          			if (c == 't')
-                  	estado = 72;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 72: c = ProximoCaracter ( );
-          			if (c == 'o')
-                  	estado = 73;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 73:
-						t.classe = 24;
-                  strcpy(t.valor,"to");//Retorna Lexema
-                  t.posicaoL = linha; //Linha do Lexema
-                  		InicioDeLexema = ApontadorAdiante;
-			  return t;
-          /*-------------------Fim "to"-----------------------*/
-          
-          /*-----------------Início "string"---------------------*/
-          case 74: c = ProximoCaracter ( );
-          			if (c == 's')
-                  	estado = 75;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 75: c = ProximoCaracter ( );
-          			if (c == 't')
-                  	estado = 76;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 76: c = ProximoCaracter ( );
-          			if (c == 'r')
-                  	estado = 77;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 77: c = ProximoCaracter ( );
-          			if ((c == 'i')&&(!islower(vetor[ApontadorAdiante]))&&(!isupper(vetor[ApontadorAdiante])))
-                  	estado = 78;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-          
-          case 78: c = ProximoCaracter ( );
-          			if ((c == 'n')&&(!islower(vetor[ApontadorAdiante]))&&(!isupper(vetor[ApontadorAdiante])))
-                  	estado = 79;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-          
-          case 79: c = ProximoCaracter ( );
-          			if ((c == 'g')&&(!islower(vetor[ApontadorAdiante]))&&(!isupper(vetor[ApontadorAdiante])))
-                  	estado = 80;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 80:
-						t.classe = 25;
-                  strcpy(t.valor,"string");//Retorna Lexema
-                  t.posicaoL = linha; //Linha do Lexema
-                  		InicioDeLexema = ApontadorAdiante;
-			  return t;
-          /*-------------------Fim "string"-----------------------*/
-          
-          /*-----------------Início "num"---------------------*/
-          case 81: c = ProximoCaracter ( );
-          			if (c == 'n')
-                  	estado = 82;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 82: c = ProximoCaracter ( );
-          			if (c == 'u')
-                  	estado = 83;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 83: c = ProximoCaracter ( );
-          			if (c == 'm')
-                  	estado = 84;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-          case 84:
-						t.classe = 26;
-                  strcpy(t.valor,"num");//Retorna Lexema
-                  t.posicaoL = linha; //Linha do Lexema
-                  		InicioDeLexema = ApontadorAdiante;
-			  return t;
-          /*-------------------Fim "num"-----------------------*/
-          
-          /*-----------------Início "{"------------------------*/
-          case 85: c = ProximoCaracter ( );
-          			if (c == '{')
-                  	estado = 86;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-
-          case 86:
-          			t.classe = 27;
-                  strcpy(t.valor,"{");//Retorna o Lexema
-                  t.posicaoL = linha; //Linha do Lexema
-                  		InicioDeLexema = ApontadorAdiante;
-			 return t;
-          /*------------------Fim "{"--------------------------*/
-          
-          /*-----------------Início "}"------------------------*/
-          case 87: c = ProximoCaracter ( );
-          			if (c == '}')
-                  	estado = 88;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-
-          case 88:
-          			t.classe = 28;
-                  strcpy(t.valor,"}");//Retorna o Lexema
-                  t.posicaoL = linha; //Linha do Lexema
-                  		InicioDeLexema = ApontadorAdiante;
-			 return t;
-          /*------------------Fim "}"--------------------------*/
-          
-          /*-----------------Início "%"------------------------*/
-          case 89: c = ProximoCaracter ( );
-          			if (c == '%')
-                  	estado = 90;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-
-          case 90:
-          			t.classe = 29;
-                  strcpy(t.valor,"%");//Retorna o Lexema
-                  t.posicaoL = linha; //Linha do Lexema
-                  		InicioDeLexema = ApontadorAdiante;
-			 return t;
-          /*------------------Fim "%"--------------------------*/
-
-          /*-----------------Início "número"--------------------*/
-          case 91: c = ProximoCaracter ( );
           			if (isdigit(c))
-                  	estado = 92;
-                  else
-                  {
-                      ApontadorAdiante = InicioDeLexema;
-                  	 estado = partida = FalhouAutomatos(partida);
-                  }
-          break;
-
-
-
-          case 92: c = ProximoCaracter ( );
-          			if (isdigit(c))
-                  	estado = 92;
+                  	estado = 66;
                   else
                   {
                   	if(c == '\n')linha--;//Para que não seja contado linha a mais
-                  	estado = 93;
+                  	estado = 67;
                      ApontadorAdiante--;
                   }
           break;
 
 
 
-          case 93:
+          case 67:
           			t.classe = 19;
                   for( p = InicioDeLexema; p < ApontadorAdiante; p++)
                   {
@@ -1061,12 +793,10 @@ token ProximoToken ()
 			 return t;
           /*------------------Fim "número"----------------------*/
 
-
-
-          /*--------------Início "identificador"------------------*/
-          case 94: c = ProximoCaracter ( );
-          			if (islower(c) || isupper(c))
-                  	estado = 95;
+		 /*-----------------Início ","------------------------*/
+          case 68: c = ProximoCaracter ( );
+          			if (c == ',')
+                  	estado = 69;
                   else
                   {
                       ApontadorAdiante = InicioDeLexema;
@@ -1076,34 +806,55 @@ token ProximoToken ()
 
 
 
-          case 95: c = ProximoCaracter ( );
+          case 69:
+          			t.classe = 30;
+                  strcpy(t.valor,",");//Retorna o Lexema
+                  t.posicaoL = linha; //Linha do Lexema
+                  		InicioDeLexema = ApontadorAdiante;
+			 return t;
+          /*------------------Fim ","--------------------------*/
+
+          /*--------------Início "identificador"------------------*/
+          case 70: c = ProximoCaracter ( );
           			if (islower(c) || isupper(c))
-                  	estado = 95;
+                  	estado = 71;
+                  else
+                  {
+                      ApontadorAdiante = InicioDeLexema;
+                  	 estado = partida = FalhouAutomatos(partida);
+                  }
+          break;
+
+
+
+          case 71: c = ProximoCaracter ( );
+          			if (islower(c) || isupper(c))
+                  	estado = 71;
                   else
                   {
                      if(c == '\n')linha--;//Para que não seja contado linha a mais
-                  	estado = 96;
+                  	estado = 72;
                      ApontadorAdiante--;
                   }
           break;
 
 
-          case 97: c = ProximoCaracter ( );
+          case 72: c = ProximoCaracter ( );
           			if (isdigit(c))
                   {
-                    	estado = 97;
+                    	estado = 72;
                   }
                   else
                   {
                   	if(c == '\n')linha--;//Para que não seja contado linha a mais
-                  	estado = 98;
+                  	estado = 73;
                      ApontadorAdiante--;
                   }
           break;
 
 
 
-          case 98:
+          case 73:
                   t.classe = 20;
                   for( p = InicioDeLexema; p < ApontadorAdiante; p++)
                   {
@@ -1118,9 +869,9 @@ token ProximoToken ()
 
 
          /*-----------------Início "final"------------------------*/
-          case 99: c = ProximoCaracter ();
+          case 74: c = ProximoCaracter ();
           			if (c == '\0')
-                  	estado = 99;
+                  	estado = 75;
                   else
                   {
                       ApontadorAdiante = InicioDeLexema;
@@ -1129,7 +880,7 @@ token ProximoToken ()
           break;
 
 
-          case 100:
+          case 75:
           			t.classe = 21;
                   strcpy(t.valor,"FIM");//Retorna o Lexema
                   t.posicaoL = linha; //Linha do Lexema
@@ -1140,7 +891,7 @@ token ProximoToken ()
 
 
 			 /*-------------------Início "erro"---------------------*/
-          case 101:
+          case 76:
           			ApontadorAdiante++;
 
           			t.classe = 22;
@@ -1153,8 +904,7 @@ token ProximoToken ()
                   		InicioDeLexema = ApontadorAdiante;
 		    return t;
          /*---------------------Fim "erro"----------------------*/
-         
-          /*------------------Fim "%"--------------------------*/
+          
         }//Fim switch
   		}//Fim while
 }//Fim Procedimento
