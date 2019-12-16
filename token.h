@@ -48,7 +48,6 @@ void RetornaToken ()
             case 30:  cout << "Classe = " << "," << endl;                break;
             case 31:  cout << "Classe = " << "%" << endl;                break;
             
-            
    		}
           cout << "Lexema = " << t.valor << endl;
           cout << "Linha  = " << t.posicaoL << endl;
@@ -56,6 +55,8 @@ void RetornaToken ()
 
 
       }while(t.classe != 21);
+      
+      
 
       //Liberando memoria
       delete[] vetor;
