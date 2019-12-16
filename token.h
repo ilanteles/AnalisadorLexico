@@ -46,6 +46,7 @@ void RetornaToken ()
             case 28:  cout << "Classe = " << "{" << endl;                break;
             case 29:  cout << "Classe = " << "}" << endl;                break;
             case 30:  cout << "Classe = " << "," << endl;                break;
+            case 31:  cout << "Classe = " << "%" << endl;                break;
             
             
    		}
